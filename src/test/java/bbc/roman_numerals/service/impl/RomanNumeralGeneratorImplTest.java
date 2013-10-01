@@ -32,8 +32,38 @@ public class RomanNumeralGeneratorImplTest {
     }
 
     @Test
+    public void generate50ReturnsL() {
+        assertThat(romanNumeralGenerator.generate(50), is("L"));
+    }
+
+    @Test
+    public void generate100ReturnsC() {
+        assertThat(romanNumeralGenerator.generate(100), is("C"));
+    }
+
+    @Test
+    public void shouldReturnIVFor4() {
+        assertThat(romanNumeralGenerator.generate(4), is("IV"));
+    }
+
+    @Test
+    public void shouldReturnIXFor9() {
+        assertThat(romanNumeralGenerator.generate(9), is("IX"));
+    }
+
+    @Test
     public void generate3999ShouldReturnMMMCMXCIX() {
         assertThat(romanNumeralGenerator.generate(3999), is("MMMCMXCIX"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void generateShouldOnlyAllowOneOrAbove() {
+        romanNumeralGenerator.generate(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void generateShouldntAcceptNumbersOver3999() {
+        romanNumeralGenerator.generate(4000);
     }
 
     @Test
@@ -55,4 +85,5 @@ public class RomanNumeralGeneratorImplTest {
     public void parseMMMCMXCIXShouldReturn3999() {
         assertThat(romanNumeralGenerator.parse("MMMCMXCIX"), is(3999));
     }
+
 }

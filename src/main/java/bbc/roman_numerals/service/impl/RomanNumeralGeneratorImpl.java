@@ -1,6 +1,7 @@
 package bbc.roman_numerals.service.impl;
 
 import bbc.roman_numerals.service.RomanNumeralGenerator;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import static org.apache.commons.lang3.StringUtils.countMatches;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.remove;
 
+@Component
 public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
 
     enum RomanNumerals {

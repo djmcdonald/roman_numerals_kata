@@ -42,12 +42,12 @@ public class RomanNumeralGeneratorImplTest {
     }
 
     @Test
-    public void shouldReturnIVFor4() {
+    public void generateShouldReturnIVFor4() {
         assertThat(romanNumeralGenerator.generate(4), is("IV"));
     }
 
     @Test
-    public void shouldReturnIXFor9() {
+    public void generateShouldReturnIXFor9() {
         assertThat(romanNumeralGenerator.generate(9), is("IX"));
     }
 
@@ -84,6 +84,16 @@ public class RomanNumeralGeneratorImplTest {
     @Test
     public void parseMMMCMXCIXShouldReturn3999() {
         assertThat(romanNumeralGenerator.parse("MMMCMXCIX"), is(3999));
+    }
+
+    @Test
+    public void parseShouldReturn4ForIV() {
+        assertThat(romanNumeralGenerator.parse("IV"), is(4));
+    }
+
+    @Test
+    public void parseShouldReturn9ForIX() {
+        assertThat(romanNumeralGenerator.parse("IX"), is(9));
     }
 
 }

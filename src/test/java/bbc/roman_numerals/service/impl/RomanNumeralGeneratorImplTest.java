@@ -96,4 +96,14 @@ public class RomanNumeralGeneratorImplTest {
         assertThat(romanNumeralGenerator.parse("IX"), is(9));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void parseShouldThrowExceptionWhenGivenNull() {
+        romanNumeralGenerator.parse(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseShouldThrowExceptionWhenGivenABlankString() {
+        romanNumeralGenerator.parse("");
+    }
+
 }

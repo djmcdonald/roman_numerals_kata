@@ -2,17 +2,46 @@ package bbc.roman_numerals.service.impl;
 
 import bbc.roman_numerals.service.RomanNumeralGenerator;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.apache.commons.lang3.StringUtils.countMatches;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.remove;
 
 public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
 
-    private final String[] romanNumerals = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
-    private final int[] romanNumeralValues = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+    enum RomanNumerals {
+        M("M", 1000),
+        CM("CM", 900),
+        D("D", 500),
+        CD("CD", 400),
+        C("C", 100),
+        XC("XC", 90),
+        L("L", 50),
+        XL("XL", 40),
+        X("X", 10),
+        IX("IX", 9),
+        V("V", 5),
+        IV("IV", 4),
+        I("I", 1);
 
-    private final String[] romanNumeralsForParse = { "CM", "CD", "XC", "XL", "IX", "IV", "M", "D", "C", "L", "X", "V", "I" };
-    private final int[] romanNumeralValuesForParse = { 900, 400, 90, 40, 9, 4, 1000, 500, 100, 50, 10, 5, 1 };
+        private final String numeral;
+        private final int value;
+
+        RomanNumerals(String numeral, int value) {
+            this.numeral = numeral;
+            this.value = value;
+        }
+
+        String getNumeral() {
+            return numeral;
+        }
+
+        int getValue() {
+            return value;
+        }
+    }
 
     @Override
     public String generate(int number) {
@@ -22,23 +51,26 @@ public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
 
         StringBuilder numerals = new StringBuilder();
 
-        for (int i = 0; i < romanNumerals.length; i++) {
-            number = appendRomanNumeral(number, numerals, i);
+        for (RomanNumerals romanNumeral : numeralsForGenerate()) {
+            int romanNumeralValue = romanNumeral.getValue();
+            int result = number / romanNumeralValue;
+
+            for (int i = 0; i < result; i++) {
+                numerals.append(romanNumeral.getNumeral());
+            }
+
+            number -= result * romanNumeralValue;
         }
 
         return numerals.toString();
     }
 
-    private int appendRomanNumeral(int number, StringBuilder numerals, int romanNumeralIndex) {
-        int romanNumeralValue = romanNumeralValues[romanNumeralIndex];
-        int result = number / romanNumeralValue;
-
-        for (int i = 0; i < result; i++) {
-            numerals.append(romanNumerals[romanNumeralIndex]);
-        }
-
-        number -= result * romanNumeralValue;
-        return number;
+    private List<RomanNumerals> numeralsForGenerate() {
+        return newArrayList(RomanNumerals.M, RomanNumerals.CM,
+                RomanNumerals.D, RomanNumerals.CD, RomanNumerals.C,
+                RomanNumerals.XC, RomanNumerals.L, RomanNumerals.XL,
+                RomanNumerals.X, RomanNumerals.IX, RomanNumerals.V,
+                RomanNumerals.IV, RomanNumerals.I);
     }
 
     @Override
@@ -49,13 +81,20 @@ public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
 
         int total = 0;
 
-        for (int i = 0; i < romanNumeralsForParse.length; i++) {
-            int matches = countMatches(numeral, romanNumeralsForParse[i]);
-            total += matches * romanNumeralValuesForParse[i];
-
-            numeral = remove(numeral, romanNumeralsForParse[i]);
+        for (RomanNumerals romanNumeral : numeralsForParse()) {
+            int matches = countMatches(numeral, romanNumeral.getNumeral());
+            total += matches * romanNumeral.getValue();
+            numeral = remove(numeral, romanNumeral.getNumeral());
         }
 
         return total;
+    }
+
+    private List<RomanNumerals> numeralsForParse() {
+        return newArrayList(RomanNumerals.CM, RomanNumerals.CD,
+                RomanNumerals.XC, RomanNumerals.XL, RomanNumerals.IX,
+                RomanNumerals.IV, RomanNumerals.M, RomanNumerals.D,
+                RomanNumerals.C, RomanNumerals.L, RomanNumerals.X,
+                RomanNumerals.V, RomanNumerals.I);
     }
 }

@@ -16,17 +16,22 @@ public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
         StringBuilder numerals = new StringBuilder();
 
         for (int i = 0; i < romanNumerals.length; i++) {
-            int romanNumeralValue = romanNumeralValues[i];
-            int result = number / romanNumeralValue;
-
-            for (int j = 0; j < result; j++) {
-                numerals.append(romanNumerals[i]);
-            }
-
-            number -= result * romanNumeralValue;
+            number = appendRomanNumeral(number, numerals, i);
         }
 
         return numerals.toString();
+    }
+
+    private int appendRomanNumeral(int number, StringBuilder numerals, int romanNumeralIndex) {
+        int romanNumeralValue = romanNumeralValues[romanNumeralIndex];
+        int result = number / romanNumeralValue;
+
+        for (int i = 0; i < result; i++) {
+            numerals.append(romanNumerals[romanNumeralIndex]);
+        }
+
+        number -= result * romanNumeralValue;
+        return number;
     }
 
     @Override

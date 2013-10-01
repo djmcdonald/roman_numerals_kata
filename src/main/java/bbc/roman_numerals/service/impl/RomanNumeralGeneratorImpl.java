@@ -1,6 +1,10 @@
 package bbc.roman_numerals.service.impl;
 
 import bbc.roman_numerals.service.RomanNumeralGenerator;
+import org.apache.commons.lang3.StringUtils;
+
+import static org.apache.commons.lang3.StringUtils.countMatches;
+import static org.apache.commons.lang3.StringUtils.remove;
 
 public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
 
@@ -36,6 +40,16 @@ public class RomanNumeralGeneratorImpl implements RomanNumeralGenerator {
 
     @Override
     public int parse(String numeral) {
-        return 0;
+        int total = 0;
+
+        for (int i = 0; i < romanNumerals.length; i++) {
+            int matches = countMatches(numeral, romanNumerals[i]);
+
+            total += matches * romanNumeralValues[i];
+
+            numeral = remove(numeral, romanNumerals[i]);
+        }
+
+        return total;
     }
 }

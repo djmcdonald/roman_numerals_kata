@@ -1,6 +1,6 @@
 package bbc.roman_numerals.controller;
 
-import bbc.roman_numerals.config.TestConfig;
+import bbc.roman_numerals.config.CommonConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = CommonConfig.class)
 @ActiveProfiles("test")
 public class RomanNumeralControllerErrorIntegrationTest {
 

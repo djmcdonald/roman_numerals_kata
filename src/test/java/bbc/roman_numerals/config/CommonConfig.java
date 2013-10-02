@@ -9,5 +9,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan("bbc.roman_numerals")
 @Profile("test")
-public class TestConfig {
+public class CommonConfig {
 }
